@@ -132,7 +132,7 @@ public class Users implements Serializable {
         this.role = role;
     }
 
-    private int getNewId() {
+    public int getNewId() {
         int idMax = AuthenService.usersList.stream().map(Users::getUserId).max(Comparator.naturalOrder()).orElse(0);
         return idMax + 1;
     }

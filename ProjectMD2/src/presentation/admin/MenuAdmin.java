@@ -38,7 +38,7 @@ public class MenuAdmin {
 
     public void displayMenuAdmin() {
         int choice = 0;
-        while (choice != 8) {
+        while (choice != 9) {
             System.out.println(YELLOW_BOLD_BRIGHT + ".----------------------------------------------------------------------.");
             System.out.printf("|  QUIZIZZ   ADMINISTATION                  Xin chào, " );
             System.out.println(YELLOW_BOLD_BRIGHT + "|----------------------------QUIZIZZ   MANAGEMENT---------------------------|");
@@ -91,22 +91,15 @@ public class MenuAdmin {
     }
 
     private void teacherAccRegister() {
-        System.out.println("--------------Đăng ký----------------");
+        System.out.println("--------------Đăng ký tài khoản giáo viên----------------");
         Users user = new Users();
         // Thiết lập thông tin cơ bản cho tài khoản giáo viên
-        System.out.println("Nhập tên người dùng: ");
-        user.setUserName(InputMethods.getString());
-        System.out.println("Nhập mật khẩu: ");
-        user.setPassword(InputMethods.getString());
-        System.out.println("Nhập email: ");
-        user.setEmail(InputMethods.getString());
-        // Set role là TEACHER
-        user.setRole(RoleName.valueOf("TEACHER"));
-
-        // Gọi phương thức đăng ký từ lớp xác thực
-        authication.register(user);
-        System.out.println("Đăng kí thành công!");
-        login();
+       user.inputData(true);
+       user.setUserId(user.getNewId()+ 1);
+       user.setRole(RoleName.TEACHER);
+       AuthenService.usersList.add(user);
+       Config.writeFile(Config.URL_USERS, AuthenService.usersList);
+        System.out.println("Đã đăng kí tài khoản giáo viên thành công");
     }
 
     private void findUserByName() {
@@ -120,8 +113,8 @@ public class MenuAdmin {
                 .filter(users -> users.getUserId()== id).findFirst().orElse(null);
     }
     private void changeStatusUsers() {
-        System.out.println("Nhập vào id người dùng bạn muốn thay đổi trạng thái:  ");
         displayAllUsers();
+        System.out.println("Nhập vào id người dùng bạn muốn thay đổi trạng thái:  ");
         int  userId = InputMethods.getInteger();
         Users users = findById(userId);
         if (users != null){

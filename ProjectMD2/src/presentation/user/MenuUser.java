@@ -117,34 +117,54 @@ public class MenuUser {
 
     private void seeResultExam() {
 //        // Lấy ra danh sách kết quả bài thi của người dùng đang đăng nhập
-//        List<Result> userResults = resultList.stream()
-//                .filter(result -> result.getUserId().equals(userLogin.getUserId()))
-//                .collect(Collectors.toList());
-//
-//        if (userResults.isEmpty()) {
-//            System.out.println("Bạn chưa có lịch sử bài thi nào.");
-//            return;
-//        }
-//
-//        // Hiển thị lịch sử bài thi
-//        for (Result result : userResults) {
-//            System.out.println("ID Bài Thi: " + result.getExamId() + ", Điểm: " + result.getTotalPoint() + ", Ngày Thi: " + result.getCreatedDate());
-//            // Lấy ra danh sách chi tiết kết quả bài thi
-//            List<ResultDetail> details = resultDetailsList.stream()
-//                    .filter(detail -> detail.getResultId().equals(result.getResultId()))
-//                    .collect(Collectors.toList());
-//
-//            // Hiển thị chi tiết từng câu hỏi và câu trả lời của người dùng
-//            for (ResultDetail detail : details) {
-//                // Giả định rằng có phương thức tìm câu hỏi và câu trả lời theo ID
-//                Question question = findQuestionById(detail.getIndexQuestion());
-//                Answer answer = findAnswerById(detail.getIndexChoice());
-//                System.out.println("Câu hỏi: " + question.getQuestionContent());
-//                System.out.println("Câu trả lời của bạn: " + answer.getAnswerContent());
-//                System.out.println("Đúng hay Sai: " + (detail.isCheck() ? "Đúng" : "Sai"));
-//            }
-//            System.out.println("--------------------------------");
-//        }
+		Users users = Config.readDataLogin(Config.URL_USER_LOGIN);
+        List<Result> userResults = resultList.stream()
+				  .filter(result -> result.getUserId() == users.getUserId())
+				  .toList();
+		if (userResults.isEmpty()) {
+			System.out.println("Bạn chưa có lịch sử bài thi nào.");
+			return;
+		}
+		// Hiển thị lịch sử bài thi
+		for (Result result : userResults) {
+
+			// tìm exam thông qua result
+			Exam exam = examService.findById(result.getExamId());
+
+			System.out.println("ID Bài Thi: " + result.getExamId() + ", Điểm: " + result.getTotalPoint() + ", Ngày Thi: " + result.getCreatedDate());
+			// Lấy ra danh sách chi tiết kết quả bài thi
+			List<ResultDetail> details = ResultDetailServiceImpl.resultDetailsList.stream()
+					  .filter(detail -> detail.getResultId() == result.getResultId())
+					  .toList();
+
+			// Hiển thị chi tiết từng câu hỏi và câu trả lời của người dùng
+			for (ResultDetail detail : details) {
+				// Giả định rằng có phương thức tìm câu hỏi và câu trả lời theo ID
+				Question question = findQuestionById(exam.getListQuestion(), detail.getIndexQuestion());
+                if (question != null) {
+                    Answer answer = findAnswerById(question.getAnswerOption(), detail.getIndexChoice());
+                    if (answer != null){
+                        System.out.println("Câu hỏi: " + question.getQuestionContent());
+                        System.out.println("Câu trả lời của bạn: " + answer.getAnswerContent());
+                        System.out.println("Đúng hay Sai: " + (detail.isCheck() ? "Đúng" : "Sai"));
+                    } else {
+                        System.out.println("Câu hỏi: " + question.getQuestionContent());
+                        System.out.println("Câu trả lời của bạn: Không có thông tin");
+                    }
+                } else {
+                    System.out.println("Không tìm thấy thông tin câu hỏi.");
+                }
+            }
+			System.out.println("--------------------------------");
+		}
+    }
+
+    private Answer findAnswerById(List<Answer> answerOption, int indexChoice) {
+        return answerOption.stream().filter(answer -> answer.getAnswerId() == indexChoice).findFirst().orElse(null);
+    }
+
+    private Question findQuestionById(List<Question> questionList, int questionId) {
+        return questionList.stream().filter(question -> question.getQuestionId() == questionId).findFirst().orElse(null);
     }
 
     private void updateInfo() {
