@@ -3,6 +3,7 @@ package presentation.admin;
 import bussiness.config.Config;
 import bussiness.config.InputMethods;
 import bussiness.config.Validate;
+import bussiness.design.IAuthication;
 import bussiness.design.IExamService;
 import bussiness.designImpl.AuthenService;
 import bussiness.designImpl.CatalogServiceImpl;
@@ -15,6 +16,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static bussiness.config.Color.*;
+import static presentation.LoginMain.authication;
+import static presentation.LoginMain.login;
 
 public class MenuAdmin {
     static  Config<Users> config = new Config<>();
@@ -27,6 +30,7 @@ public class MenuAdmin {
     public static MenuAdmin getInstance() {
         return menuAdmin;
     }
+    public static IAuthication authication = new AuthenService();
 
     private MenuAdmin() {
 
@@ -45,7 +49,8 @@ public class MenuAdmin {
             System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[5] Thống kê danh sách bài thi                                 " + YELLOW_BOLD_BRIGHT + "|");
             System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[6] Thống kê điểm thi trung bình theo tháng                                " + YELLOW_BOLD_BRIGHT + "|");
             System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[7] Thống kê top 10 bạn có điểm thi cao nhất trong tháng                                 " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[8] Đăng xuất                                " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[8] Thêm tài khoản giáo viên                        " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[9] Đăng xuất                                " + YELLOW_BOLD_BRIGHT + "|");
             System.out.println("'----------------------------------------------------------------------'" + RESET);
             System.out.print(WHITE_BOLD_BRIGHT + "Nhập lựa chọn : ");
             choice = Validate.validateInt();
@@ -72,9 +77,10 @@ public class MenuAdmin {
                      case 7:
                          top10UserBestScore();
                     break;
-
-
                 case 8:
+                        teacherAccRegister();
+                    break;
+                case 9:
                     Config.writeFileLogin(Config.URL_USER_LOGIN, null);
                     System.out.println(GREEN_BOLD_BRIGHT + "Đăng xuất thành công !" + RESET);
                     break;
@@ -82,6 +88,25 @@ public class MenuAdmin {
                     System.out.println(RED_BOLD_BRIGHT + "Không hợp lệ, vui lòng nhập lại." + RESET);
             }
         }
+    }
+
+    private void teacherAccRegister() {
+        System.out.println("--------------Đăng ký----------------");
+        Users user = new Users();
+        // Thiết lập thông tin cơ bản cho tài khoản giáo viên
+        System.out.println("Nhập tên người dùng: ");
+        user.setUserName(InputMethods.getString());
+        System.out.println("Nhập mật khẩu: ");
+        user.setPassword(InputMethods.getString());
+        System.out.println("Nhập email: ");
+        user.setEmail(InputMethods.getString());
+        // Set role là TEACHER
+        user.setRole(RoleName.valueOf("TEACHER"));
+
+        // Gọi phương thức đăng ký từ lớp xác thực
+        authication.register(user);
+        System.out.println("Đăng kí thành công!");
+        login();
     }
 
     private void findUserByName() {

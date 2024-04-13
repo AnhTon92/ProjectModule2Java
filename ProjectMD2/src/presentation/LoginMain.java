@@ -14,7 +14,7 @@ public class LoginMain {
 
     private static MenuUser menuUser = new MenuUser();
     private static MenuTeacher menuTeacher = new MenuTeacher();
-    private static IAuthication authication = new AuthenService();
+    public static IAuthication authication = new AuthenService();
     public static Users user = null;
     public static Users currentUser = Config.readDataLogin(Config.URL_USER_LOGIN);
     public static void main(String[] args) {

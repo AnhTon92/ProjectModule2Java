@@ -13,6 +13,9 @@ public class Test {
         Users admin = new Users();
         admin.setUserId(1);
         admin.setUserName("admin123");
+        admin.setEmail("example@gmail.com");
+        admin.setPhone("0988928931");
+        admin.setStatus(true);
         admin.setPassword(BCrypt.hashpw("admin123",BCrypt.gensalt(5)));
         admin.setRole(RoleName.ADMIN);
         users.add(admin);
