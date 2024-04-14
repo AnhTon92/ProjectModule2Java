@@ -66,4 +66,16 @@ public class ResultServiceImpl implements IResultService {
         }
         return (idMax + 1);
     }
+
+    @Override
+    public List<Result> findByExamId(int examId) {
+        List<Result> resultsByExamId = new ArrayList<>();
+        for (Result result : resultList) {
+            if (result.getExamId() == examId) {
+                resultsByExamId.add(result);
+            }
+        }
+        return resultsByExamId;
+
+    }
 }

@@ -1,9 +1,6 @@
 package bussiness.entity;
 
-import bussiness.designImpl.AnswerServiceImpl;
-
 import java.io.Serializable;
-import java.util.Comparator;
 
 public class Answer implements Serializable {
 

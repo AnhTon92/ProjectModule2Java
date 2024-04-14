@@ -9,7 +9,7 @@ public class Config<T> {
     public static Scanner scanner() {
         return new Scanner(System.in);
     }
-
+    // các biến hằng số cho đường dẫn các file
     public static final String URL_USERS = "src/bussiness/data/users.txt";
     public static final String URL_USER_LOGIN = "src/bussiness/data/userLogin.txt";
     public static final String URL_EXAMS = "src/bussiness/data/exams";
@@ -18,7 +18,7 @@ public class Config<T> {
     public static final String URL_RESULTS = "src/bussiness/data/results";
     public static final String URL_RESULTDETAIL = "src/bussiness/data/resultDetail.txt";
 
-
+    // phương thức ghi, ghi 1 list đối tượng vào file
     public static <T> void writeFile(String PATH_FILE, List<T> t) {
         File file = new File(PATH_FILE);
         try (FileOutputStream fos = new FileOutputStream(file);
@@ -28,7 +28,7 @@ public class Config<T> {
             System.out.println("Lỗi khi ghi file: " + e.getMessage());
         }
     }
-
+// phương thức đọc dữ liệu từ file và trả về 1 list đối tượng
     public static <T> List<T> readData(String path){
         List<T> list = new ArrayList<>();
         FileInputStream fis = null;
@@ -61,6 +61,7 @@ public class Config<T> {
         return list;
 
     }
+    // ghi và đọc file của đối tượng đăng nhập
     public static <T> void writeFileLogin(String PATH_FILE, T t) {
         File file = new File(PATH_FILE);
         try (FileOutputStream fos = new FileOutputStream(file);
@@ -70,6 +71,7 @@ public class Config<T> {
             System.out.println("Lỗi khi ghi file: " + e.getMessage());
         }
     }
+
     public static <T> T  readDataLogin(String path){
         T t = null;
         FileInputStream fis = null;

@@ -5,9 +5,9 @@ import bussiness.config.InputMethods;
 import bussiness.config.Validate;
 import bussiness.design.ICatalogService;
 import bussiness.design.IExamService;
-import bussiness.designImpl.AuthenService;
-import bussiness.designImpl.CatalogServiceImpl;
-import bussiness.designImpl.ExamServiceImpl;
+import bussiness.design.IResultService;
+import bussiness.design.IUserService;
+import bussiness.designImpl.*;
 import bussiness.entity.*;
 import presentation.LoginMain;
 
@@ -22,8 +22,10 @@ import java.util.Objects;
 import static bussiness.config.Color.*;
 
 public class MenuTeacher {
+    IResultService resultService = new ResultServiceImpl();
     IExamService examService = new ExamServiceImpl();
     ICatalogService catalogService = new CatalogServiceImpl();
+    IUserService userService = new UserServiceImpl();
 
     public void displayMenuTeacher() {
         int choice = 0;
@@ -71,7 +73,7 @@ public class MenuTeacher {
                     deleteExam();
                     break;
                 case 9:
-
+                    displayExamStatistics();
                     break;
                 case 10:
                     Config.writeFileLogin(Config.URL_USER_LOGIN, null);
@@ -80,6 +82,31 @@ public class MenuTeacher {
                 default:
                     System.out.println(RED_BOLD_BRIGHT + "Không hợp lệ, vui lòng nhập lại." + RESET);
             }
+        }
+    }
+
+    private void displayExamStatistics() {
+        System.out.println("Nhập ID đề thi bạn muốn xem thống kê: ");
+        int examId = InputMethods.getInteger();
+        Exam exam = examService.findById(examId);
+        if (exam != null) {
+            List<Result> results = resultService.findByExamId(examId);
+            System.out.println("Thống kê kết quả cho đề thi: " + exam.getDescription());
+            // Thống kê số lượng người thi, điểm trung bình, cao nhất, thấp nhất
+            double averageScore = results.stream().mapToDouble(Result::getTotalPoint).average().orElse(0.0);
+            double maxScore = results.stream().mapToDouble(Result::getTotalPoint).max().orElse(0.0);
+            double minScore = results.stream().mapToDouble(Result::getTotalPoint).min().orElse(0.0);
+            System.out.println("Số lượng người thi: " + results.size());
+            System.out.println("Điểm trung bình: " + averageScore);
+            System.out.println("Điểm cao nhất: " + maxScore);
+            System.out.println("Điểm thấp nhất: " + minScore);
+            // Hiển thị chi tiết từng người dự thi
+            results.forEach(result -> {
+                Users user = userService.findById(result.getUserId());
+                System.out.println("Người dự thi: " + user.getUserName() + ", Điểm: " + result.getTotalPoint());
+            });
+        } else {
+            System.out.println("Không tìm thấy đề thi với ID đã nhập.");
         }
     }
 
@@ -158,7 +185,7 @@ public class MenuTeacher {
             } while (choice != 3);
             examService.save(exam);
         } else {
-            System.out.println("Bài thi này không phải của bạn. Vui lòng nhập lại!");
+            System.out.println("Đề thi này không phải của bạn. Vui lòng nhập lại!");
         }
     }
 
@@ -471,8 +498,7 @@ public class MenuTeacher {
         exam.setStatus(true);
         exam.setCategories(getCatalogForExam());
         exam.setListQuestion(getListQuestionForExam());
-        // chưa thực hiện lưu vào list
-        // gọi phương thức save trong examService đó
+
         examService.save(exam);
     }
 

@@ -57,7 +57,6 @@ public class MenuAdmin {
             switch (choice) {
                 case 1:
                     displayAllUsers();
-
                     break;
                 case 2:
                     changeStatusUsers();
@@ -236,8 +235,6 @@ public class MenuAdmin {
         for (UserBestScore userBestScore : top10Items) {
             userBestScore.display();
         }
-
-
     }
 
     private List<?> preData(Objects data) {
