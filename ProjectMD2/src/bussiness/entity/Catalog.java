@@ -41,7 +41,7 @@ public class Catalog implements Serializable{
         do {
             System.out.print("Nhập tên danh mục: ");
             this.catalogName = InputMethods.getString();
-            if (this.catalogName == null || this.catalogName.trim().isEmpty()) {
+            if (this.catalogName.trim().isEmpty()) {
                 System.out.println("Tên danh mục không được để trống.");
             }
         } while (this.catalogName == null || this.catalogName.trim().isEmpty());

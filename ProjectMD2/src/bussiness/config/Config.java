@@ -10,13 +10,13 @@ public class Config<T> {
         return new Scanner(System.in);
     }
     // các biến hằng số cho đường dẫn các file
-    public static final String URL_USERS = "./src/bussiness/data/users.txt";
-    public static final String URL_USER_LOGIN = "./src/bussiness/data/userLogin.txt";
-    public static final String URL_EXAMS = "./src/bussiness/data/exams.txt";
-    public static final String URL_CATEGORY = "./src/bussiness/data/category.txt";
-    public static final String URL_ANSWERS = "./src/bussiness/data/answers";
-    public static final String URL_RESULTS = "./src/bussiness/data/results.txt";
-    public static final String URL_RESULTDETAIL = "./src/bussiness/data/resultDetail.txt";
+    public static final String URL_USERS = "C:\\Users\\ROG\\OneDrive\\Desktop\\ProjectMD2\\ProjectMD2\\src\\bussiness\\data\\users.txt";
+    public static final String URL_USER_LOGIN = "C:\\Users\\ROG\\OneDrive\\Desktop\\ProjectMD2\\ProjectMD2\\src\\bussiness\\data\\userLogin.txt";
+    public static final String URL_EXAMS = "C:\\Users\\ROG\\OneDrive\\Desktop\\ProjectMD2\\ProjectMD2\\src\\bussiness\\data\\exams.txt";
+    public static final String URL_CATEGORY = "C:\\Users\\ROG\\OneDrive\\Desktop\\ProjectMD2\\ProjectMD2\\src\\bussiness\\data\\category.txt";
+    public static final String URL_ANSWERS = "C:\\Users\\ROG\\OneDrive\\Desktop\\ProjectMD2\\ProjectMD2\\src\\bussiness\\data\\answers.txt";
+    public static final String URL_RESULTS = "C:\\Users\\ROG\\OneDrive\\Desktop\\ProjectMD2\\ProjectMD2\\src\\bussiness\\data\\results.txt";
+    public static final String URL_RESULTDETAIL = "C:\\Users\\ROG\\OneDrive\\Desktop\\ProjectMD2\\ProjectMD2\\src\\bussiness\\data\\resultDetail.txt";
 
     // phương thức ghi, ghi 1 list đối tượng vào file
     public static <T> void writeFile(String PATH_FILE, List<T> t) {
