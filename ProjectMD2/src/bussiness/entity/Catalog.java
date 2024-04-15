@@ -1,6 +1,7 @@
 package bussiness.entity;
 
 import bussiness.config.InputMethods;
+import bussiness.designImpl.CatalogServiceImpl;
 
 import java.io.Serializable;
 import java.util.Scanner;
@@ -45,9 +46,32 @@ public class Catalog implements Serializable{
             }
         } while (this.catalogName == null || this.catalogName.trim().isEmpty());
 
+        // Kiểm tra trùng lặp ID
+        while (isDuplicateCatalogId(this.catalogId)) {
+            System.out.println("ID danh mục đã tồn tại, vui lòng nhập lại.");
+            System.out.print("Nhập mã danh mục (ví dụ: C001): ");
+            this.catalogId = InputMethods.getString();
+        }
+
+        // Kiểm tra trùng lặp tên danh mục
+        while (isDuplicateCatalogName(this.catalogName)) {
+            System.out.println("Tên danh mục đã tồn tại, vui lòng nhập lại.");
+            System.out.print("Nhập tên danh mục: ");
+            this.catalogName = InputMethods.getString();
+        }
+
         // Nhập mô tả
         System.out.print("Nhập mô tả danh mục: ");
         this.description = InputMethods.getString();
+
+    }
+
+    private boolean isDuplicateCatalogName(String catalogName) {
+        return CatalogServiceImpl.existCategoryName(catalogName);
+    }
+
+    private boolean isDuplicateCatalogId(String catalogId) {
+        return CatalogServiceImpl.checkCatalogIdExists(catalogId);
     }
 
     // Phương thức hiển thị dữ liệu

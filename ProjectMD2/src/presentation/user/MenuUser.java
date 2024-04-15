@@ -266,34 +266,35 @@ public class MenuUser {
                 System.out.println("Đây là câu hỏi thứ " + (i + 1) + ":");
                 // hiện nội dung câu hỏi : questionh.getContent()
                 System.out.println(question.getQuestionContent());
-                ResultDetail detail = new ResultDetail();
+//                ResultDetail detail = new ResultDetail();
                 // show ra list answer và cho nó lựa chọn
+                ResultDetail detail = new ResultDetail();
                 for (int j = 0; j < question.getAnswerOption().size(); j++) {
+
                     System.out.println("Phương án thứ " + (j + 1) + ":" + question.getAnswerOption().get(j).getAnswerContent());
                 }
                 System.out.println("Chọn phương án trả lời (nhập số): ");
                 int answerIndex = InputMethods.getInteger() - 1;
-                Answer selectedAnswer = question.getAnswerOption().get(answerIndex);
-
-                detail.setIndexQuestion(question.getQuestionId());
-                detail.setIndexChoice(selectedAnswer.getAnswerId());
+                Answer answer = question.getAnswerOption().get(answerIndex);
+                detail.setIndexQuestion(i);
+                detail.setIndexChoice(answerIndex);
                 detail.setResultId(result.getResultId());
-                detail.setCheck(selectedAnswer.getAnswerTrue());
-//                resultDetailService.save(detail);
+                detail.setCheck(answer.getAnswerTrue());
+                if (answer.getAnswerTrue()) {
+                    totalCorrectAnswers += 1;
+                }
+                resultDetailService.save(detail);
 
                 ResultDetailServiceImpl.resultDetailsList.add(detail);
                 Config.writeFile(Config.URL_RESULTDETAIL, ResultDetailServiceImpl.resultDetailsList);
 
-                if (selectedAnswer.getAnswerTrue()) {
-                    totalCorrectAnswers++;
-                }
             }
-            double totalPoints = (double) totalCorrectAnswers / exam.getListQuestion().size();
+
+            double totalPoints = (double) totalCorrectAnswers * 100/ exam.getListQuestion().size();
             // xong vòng for thì mới tính tổng diểm
             // lấy ra list câu trả lời vừa thi (findAllByResultId)
             // đếm số lượng resultdetail = true
             // số lương true / số lượng list câu hỏi vừa thi
-
             System.out.println("totalPoint" + totalPoints);
             result.setTotalPoint(totalPoints);
 
@@ -301,8 +302,7 @@ public class MenuUser {
             resultList.add(result);
             Config.writeFile(Config.URL_RESULTS, resultList);
 
-
-            System.out.println("Bài thi đã kết thúc. Tổng điểm của bạn là: " + totalPoints);
+            System.out.printf("Bài thi đã kết thúc. Tổng điểm của bạn là: %s\n" , totalPoints);
             // xong thực hiện gọi resultservice gọi phương thức save và luw
         } else {
             System.out.println("Không tìm thấy đề thi đấy");

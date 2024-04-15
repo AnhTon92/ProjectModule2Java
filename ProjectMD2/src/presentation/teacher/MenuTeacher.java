@@ -221,23 +221,23 @@ public class MenuTeacher {
         categories.forEach((catalog -> System.out.println("ID: "
                 + catalog.getCatalogId() + ", Tên: "
                 + catalog.getCatalogName())));
-                String catalogId;
+        String catalogId;
         // cho nó lựa chọn id để xóa (cũng cho vào while(true)) để cho lựa chọn đúng thì thôi
-                while (true) {
-                    System.out.println("Nhập Id danh mục bạn muốn xóa: ");
-                    catalogId = InputMethods.getString();
-                    String finalCatalogId = catalogId;
-                    Catalog catalogToDelete = categories.stream().filter(catalog -> Objects.equals(catalog.getCatalogId(), finalCatalogId))
-                            .findFirst().orElse(null);
-                    if (catalogToDelete !=null) {
-                        categories.remove(catalogToDelete);
-                        System.out.println("Danh mục đã được xóa thành công!");
-                        break;
-                    } else {
-                        System.out.println("Không tìm thấy danh mục với ID đã nhập, vui lòng nhập lại.");
-                    }
-                }
-                // xóa thì tự động cập nhật trong list rồi
+        while (true) {
+            System.out.println("Nhập Id danh mục bạn muốn xóa: ");
+            catalogId = InputMethods.getString();
+            String finalCatalogId = catalogId;
+            Catalog catalogToDelete = categories.stream().filter(catalog -> Objects.equals(catalog.getCatalogId(), finalCatalogId))
+                    .findFirst().orElse(null);
+            if (catalogToDelete != null) {
+                categories.remove(catalogToDelete);
+                System.out.println("Danh mục đã được xóa thành công!");
+                break;
+            } else {
+                System.out.println("Không tìm thấy danh mục với ID đã nhập, vui lòng nhập lại.");
+            }
+        }
+        // xóa thì tự động cập nhật trong list rồi
     }
 
     private void addNewCatalogForExam(List<Catalog> categories) {
@@ -290,7 +290,7 @@ public class MenuTeacher {
             switch (choice) {
                 case 1:
                     Question question = new Question();
-                    int questionId = 0  ;
+                    int questionId = 0;
                     boolean idExist;
                     do {
                         System.out.println("Nhập id cho câu hỏi: ");
@@ -471,12 +471,13 @@ public class MenuTeacher {
     }
 
     private void addNewCatalog() {
-        System.out.println("Nhập số lượng danh mục bạn muốn thêm: ");
+        System.out.println("Nhập số lượng danh mục bạn muốn thêm: ");// tạo biến countCatalog để người dùng nhập
+        //số lượng catalog muốn thêm mới vào
         int countCatalog = InputMethods.getInteger();
-        for (int i = 0; i < countCatalog; i++) {
-            Catalog catalog = new Catalog();
-            catalog.inputData();
-            catalogService.save(catalog);
+        for (int i = 0; i < countCatalog; i++) {//lặp qua từng danh mục cần thêm dựa trên số lượng danh mục đã nhập
+            Catalog catalog = new Catalog();// mỗi lần lặp khởi tạo 1 đối tượng catalog mới được tạo ra
+            catalog.inputData(); // đông thời gọi phương thức inputData(đã validate và check trùng) để nhập dữ liệu cho danh mục
+            catalogService.save(catalog);// lưu vào file
         }
     }
 
@@ -484,7 +485,7 @@ public class MenuTeacher {
         // lấy user đang đăng nhập (teacher) ra để so sánh
         Users users = Config.readDataLogin(Config.URL_USER_LOGIN);
         // trong exam có trường userId để check
-        examService.findAll().stream().filter(exam->exam.getUserId()==users.getUserId()).forEach(exam -> exam.displayData(AuthenService.usersList));
+        examService.findAll().stream().filter(exam -> exam.getUserId() == users.getUserId()).forEach(exam -> exam.displayData(AuthenService.usersList));
     }
 
     private void displayAllCatalog() {
@@ -492,83 +493,88 @@ public class MenuTeacher {
     }
 
     public void addNewExam() {
-
-        Exam exam = new Exam();
-        exam.setExamId(examService.getNewId());
-        Users users = Config.readDataLogin(Config.URL_USER_LOGIN);
-        exam.setUserId(users.getUserId());
+        Exam exam = new Exam();// khởi tạo đối tượng exam mới của lớp Exam
+        exam.setExamId(examService.getNewId());//thiết lập id mới cho bài thi lấy từ examService.exam được thiết lập cho đối tượng exam
+        Users users = Config.readDataLogin(Config.URL_USER_LOGIN);// lấy thông tin người dùng đang đăng nhập hiện tại từ file qua phương thức
+        // đọc file readDataLogin ở lớp Config
+        exam.setUserId(users.getUserId());//id người dùng hiện tại (giáo viên) được thiết lập cho đối tượng exam
         System.out.println("Nhập vào mô tả bài thi: ");
         exam.setDescription(InputMethods.getString());
         System.out.println("Nhập vào thời gian làm bài thi: ");
         exam.setDuration(InputMethods.getLong());
-        exam.setCreatedAt(new Date());
-        exam.setStatus(true);
-        exam.setCategories(getCatalogForExam());
-        exam.setListQuestion(getListQuestionForExam());
-
-        examService.save(exam);
+        exam.setCreatedAt(new Date());// thiết lập ngày tạo là ngày hiện tại
+        exam.setStatus(true);// trạng thái được thiêt lập mặc định là true
+        exam.setCategories(getCatalogForExam());// lấy danh mục bài thi thông qua phương thức getCatalogForExam()
+        exam.setListQuestion(getListQuestionForExam());// lấy danh sách câu hỏi cho bài thi thông qua phương thức getListQuestionForExam()
+        examService.save(exam);// lưu bài thi vào hệ thống thông qua phương thức save của examService, truyền vào đối tượng exam vừa tạo
     }
 
     public List<Question> getListQuestionForExam() {
         List<Question> questionList = new ArrayList<>();
-        int choice;
-        do {
-            System.out.println("========================ADD QUESTION TO EXAM MENU================================");
-            System.out.println("[1]. Thêm câu hỏi cho bài thi: ");
-            System.out.println("[2]. Thoát!");
-            System.out.println("Xin mời lựa chọn: ");
-            choice = InputMethods.getInteger();
-            switch (choice) {
-                case 1:
-                    // b1: Tạo đối tượng Question
-                    Question question = new Question();
-                    // b2: nhập các thông tin cần thiết
-                    // 2.1 thêm thông tin cơ bản
-                    System.out.println("Nhập id cho câu hỏi: ");
-                    question.setQuestionId(InputMethods.getInteger());
-                    System.out.println("Nhập nội dung câu hỏi: ");
-                    question.setQuestionContent(InputMethods.getString());
-                    // 2.2 tạo hàm trả về List<Answer>
-                    question.setAnswerOption(getAnswerOptionForQuestion());
-                    // b3: add list
-                    questionList.add(question);
-                    break;
-                case 2:
-                    break;
-                default:
-                    System.out.println("Lựa chọn 1 hoặc 2, lựa lại");
-            }
-        } while (choice != 2);
+        // nhập vào số câu hỏi muốn thêm
+        System.out.println("Nhập vào số lượng câu hỏi: ");
+        int n = InputMethods.getInteger();
+        for (int i = 0; i < n; i++) {
+            // b1: Tạo đối tượng Question
+            Question question = new Question();
+            // b2: nhập các thông tin cần thiết
+            // 2.1 thêm thông tin cơ bản
+            System.out.println("Nhập id cho câu hỏi: ");
+            question.setQuestionId(InputMethods.getInteger());
+            System.out.println("Nhập nội dung câu hỏi: ");
+            question.setQuestionContent(InputMethods.getString());
+            // 2.2 tạo hàm trả về List<Answer>
+            question.setAnswerOption(getAnswerOptionForQuestion());
+            // b3: add list
+            questionList.add(question);
+        }
         return questionList;
     }
 
     private List<Answer> getAnswerOptionForQuestion() {
-        List<Answer> answerList = new ArrayList<>();
-        int choice;
-        do {
-            System.out.println("==============ADD ANSWER TO QUESTION MENU==============");
-            System.out.println("[1]. Thêm câu trả lời:");
-            System.out.println("[2]. Hoàn tất!");
-            System.out.println("Xin mời lựa chọn:");
-            choice = InputMethods.getInteger();
-            switch (choice) {
-                case 1:
-                    Answer answer = new Answer();
-                    System.out.println("Nhập ID câu trả lời:");
-                    answer.setAnswerId(InputMethods.getInteger());
+        // bốn phương án trả lời fix cứng
+        // vòng lặp do while cho người dùng nhập lại đến khi thỏa mãn điều kiện nhập ít nhất 1 câu trả lời đúng cho câu hỏi mới dừng
+         do {
+            List<Answer> answerList = new ArrayList<>(); // khởi tạo 1 danh sách answerList mới để lưu trữ các đối tượng Answer
+            for (int i = 0; i < 4; i++) { // lặp 4 lần tương ứng nhập 4 phương án trả lời
+
+                Answer answer = new Answer(); // khởi tạo đối tượng answer và nhập thông tin Answer
+                //tạo biến để check trùng
+                int answerId;
+                String answerContent;
+                boolean idExists, contentExists;
+                do {
+                    System.out.println("Phương án thứ " + (i + 1));
+                    System.out.println("Nhập ID câu trả lời:"); //nhập ID cho mỗi câu trả lời
+                    answerId = InputMethods.getInteger(); // gán biến answerId và answerContent là id và nội dung câu trả lời giáo viên nhập vào
                     System.out.println("Nhập nội dung câu trả lời:");
-                    answer.setAnswerContent(InputMethods.getString());
-                    System.out.println("Đây có phải là câu trả lời đúng không? (1: Có, 0: Không):");
-                    answer.setAnswerTrue(InputMethods.getBoolean());
-                    answerList.add(answer);
-                    break;
-                case 2:
-                    break;
-                default:
-                    System.out.println("Lựa chọn 1 hoặc 2, lựa lại");
+                    answerContent = InputMethods.getString();
+                    int finalAnswerId = answerId;
+                    idExists = answerList.stream().anyMatch(a -> a.getAnswerId() == finalAnswerId);// chạy stream của answerList
+                    // dùng hàm anyMatch có sẵn trả về đúng nếu có bất kì phần tử a.getAnswerId trong answerList == id câu trả lời giáo viên nhập
+
+                    String finalAnswerContent = answerContent;
+                    contentExists = answerList.stream().anyMatch(a -> a.getAnswerContent().equalsIgnoreCase(finalAnswerContent));//chạy stream của answerList
+                    // dùng hàm anyMatch có sẵn trả về đúng nếu có bất kì phần tử a.getAnswerContent trong answerList tương đương (không kể viết hoa hay thường)
+                    // nội dung câu trả lời giáo viên nhập
+                    if (idExists || contentExists) { // nếu 1 trong 2 biến check trùng đúng thì hiện ra thông báo để nhập lại
+                        System.out.println("ID hoặc nội dung câu trả lời đã tồn tại, vui lòng nhập lại.");
+                    }
+                } while (idExists || contentExists);// dừng vòng lặp
+                answer.setAnswerId(answerId); // set AnswerId truyền vào biến answerId giáo viên nhập vào
+                answer.setAnswerContent(answerContent);// set answerContent truyền vào biến answerContent gióa viên nhập vào
+                System.out.println("Đây có phải là câu trả lời đúng không? (1: Có, 0: Không):"); // cho giáo viên chọn xem phương án này có đúng ko?
+                answer.setAnswerTrue(InputMethods.getInteger() == 1);// để mặc định 1 là true còn lại là false
+                answerList.add(answer); // sau khi nhập và set xong thì thêm đối tượng answer vào answerList
             }
-        } while (choice != 2);
-        return answerList;
+            // filter lọc ra cái list có câu trả lời đúng không lọc ra những cái AnswerTrue xong dùng count để đếm số phần tử
+            if (answerList.stream().filter(Answer::getAnswerTrue).count() == 1) {// điều kiện nếu chỉ có đúng 1 câu trả lời đúng
+                return answerList; // trả về answerList
+            } else {// nếu nhiều hơn hoặc ít hơn 1 câu trả lời đúng thì in ra thông báo
+                System.out.println("Danh sách câu hỏi chỉ có một câu đúng");
+            }
+            // nếu không thì quay lại đoạn đầu do sẽ lại khởi tạo lại cái answerList và thực hiện lại ban đầu
+        } while (true);
     }
 
     public List<Catalog> getCatalogForExam() {
@@ -593,14 +599,21 @@ public class MenuTeacher {
                             }
                             System.out.println("Vui lòng lựa chọn ID danh mục bạn muốn thêm");
                             String choiceID = InputMethods.getString();
+
                             Catalog catalog = CatalogServiceImpl.catalogList.stream().filter(item -> item.getCatalogId().equals(choiceID))
                                     .findFirst().orElse(null);
                             if (catalog == null) {
                                 System.out.println("Không tìm thấy. Mời nhập lại: ");
                             } else {
-                                catalogList.add(catalog);
+                                // check kiểm tra xem tồn tại catalog xem có trong list chưa
+                                if (catalogList.contains(catalog)) {
+                                    System.out.println("Đã tồn tại danh mục này trong list Catalog rồi");
+                                } else {
+                                    catalogList.add(catalog);
+                                }
                                 break;
                             }
+
                         }
                         break;
                     case 2:

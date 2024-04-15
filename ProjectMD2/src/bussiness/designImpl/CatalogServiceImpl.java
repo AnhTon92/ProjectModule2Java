@@ -15,9 +15,18 @@ public class CatalogServiceImpl implements ICatalogService {
     static {
         catalogList = Config.readData(Config.URL_CATEGORY);
     }
-// phương thức kiểm tra trùng tên danh mục
-    @Override
-    public boolean existCategoryName(String categoryName) {
+
+    public static boolean checkCatalogIdExists(String catalogId) {
+        for (Catalog catalog : catalogList) {
+            if (catalog.getCatalogId().equalsIgnoreCase(catalogId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // phương thức kiểm tra trùng tên danh mục
+    public static boolean existCategoryName(String categoryName) {
         for (Catalog catalog : catalogList) {
             if (catalog.getCatalogName().equalsIgnoreCase(categoryName)) {
                 return true;
