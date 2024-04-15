@@ -11,12 +11,11 @@ import java.util.Objects;
 
 public class CatalogServiceImpl implements ICatalogService {
     public static IExamService examService = new ExamServiceImpl();
-
     public static List<Catalog> catalogList;
     static {
         catalogList = Config.readData(Config.URL_CATEGORY);
     }
-
+// phương thức kiểm tra trùng tên danh mục
     @Override
     public boolean existCategoryName(String categoryName) {
         for (Catalog catalog : catalogList) {
@@ -26,7 +25,7 @@ public class CatalogServiceImpl implements ICatalogService {
         }
         return false;
     }
-
+// phương thức tìm danh mục theo tên
     @Override
     public List<Catalog> findByName(String catalogName) {
         List<Catalog> matchedList = new ArrayList<>();
@@ -37,7 +36,7 @@ public class CatalogServiceImpl implements ICatalogService {
         }
         return matchedList;
     }
-
+// phương thức lấy toàn bộ danh sách danh mục
     @Override
     public List<Catalog> findAll() {
         return catalogList;

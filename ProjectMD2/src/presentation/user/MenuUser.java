@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static bussiness.config.Color.GREEN_BOLD_BRIGHT;
-import static bussiness.config.Color.RESET;
+import static bussiness.config.Color.*;
 import static bussiness.designImpl.CatalogServiceImpl.examService;
 import static bussiness.designImpl.ResultServiceImpl.resultList;
 
@@ -36,15 +35,17 @@ public class MenuUser {
 
     public void displayMenuUser() {
         while (true) {
-            System.out.println("Welcome to user page");
-            System.out.println("1. Hiển thị danh sách đề thi");
-            System.out.println("2. Tìm kiếm đề thi theo danh mục");
-            System.out.println("3. Bắt đầu thi");
-            System.out.println("4. Hiển thị thông tin cá nhân");
-            System.out.println("5. Chỉnh sửa thông tin cá nhân");
-            System.out.println("6. Hiển thị lịch sử bài thi và review bài thi");
-            System.out.println("7. Đồi mật khẩu");
-            System.out.println("8. Đăng xuất");
+            System.out.println(YELLOW_BOLD_BRIGHT + ".----------------------------------------------------------------------.");
+            System.out.println("|     MY QUIZZIZ     Xin chào    |");
+            System.out.println(YELLOW_BOLD_BRIGHT + "|--------------------------USER MENU-------------------------------|");
+            System.out.println("|" + WHITE_BOLD_BRIGHT + "          [1] Hiển thị danh sách đề thi                       " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + WHITE_BOLD_BRIGHT + "          [2] Tìm kiếm đề thi theo danh mục                   " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + WHITE_BOLD_BRIGHT + "          [3] Bắt đầu thi                                     " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + WHITE_BOLD_BRIGHT + "          [4] Hiển thị thông tin cá nhân                      " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + WHITE_BOLD_BRIGHT + "          [5] Chỉnh sửa thông tin cá nhân                     " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + WHITE_BOLD_BRIGHT + "          [6] Hiển thị lịch sử thi                            " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + WHITE_BOLD_BRIGHT + "          [7] Đổi mật khẩu                                    " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + WHITE_BOLD_BRIGHT + "          [8] Đăng xuất                                       " + YELLOW_BOLD_BRIGHT + "|");
 
             byte choice = InputMethods.getByte();
             switch (choice) {
@@ -75,7 +76,7 @@ public class MenuUser {
                     return;
 
                 default:
-                    System.out.println("Your choice out of range");
+                    System.out.println("Không hợp lệ, vui lòng nhập lại lựa chọn từ 1 đến 8");
                     break;
 
             }
@@ -170,7 +171,7 @@ public class MenuUser {
     private void updateInfo() {
         while (true) {
             System.out.println("Bạn muốn chỉnh sửa phần nào của thông tin cá nhân?: ");
-            System.out.println("[1] UserName");
+            System.out.println("[1]. UserName");
             System.out.println("[2]. Phone Number");
             System.out.println("[3]. Address");
             System.out.println("[4]. First Name");
@@ -273,11 +274,16 @@ public class MenuUser {
                 System.out.println("Chọn phương án trả lời (nhập số): ");
                 int answerIndex = InputMethods.getInteger() - 1;
                 Answer selectedAnswer = question.getAnswerOption().get(answerIndex);
+
                 detail.setIndexQuestion(question.getQuestionId());
                 detail.setIndexChoice(selectedAnswer.getAnswerId());
                 detail.setResultId(result.getResultId());
                 detail.setCheck(selectedAnswer.getAnswerTrue());
-                resultDetailService.save(detail);
+//                resultDetailService.save(detail);
+
+                ResultDetailServiceImpl.resultDetailsList.add(detail);
+                Config.writeFile(Config.URL_RESULTDETAIL, ResultDetailServiceImpl.resultDetailsList);
+
                 if (selectedAnswer.getAnswerTrue()) {
                     totalCorrectAnswers++;
                 }
@@ -287,8 +293,15 @@ public class MenuUser {
             // lấy ra list câu trả lời vừa thi (findAllByResultId)
             // đếm số lượng resultdetail = true
             // số lương true / số lượng list câu hỏi vừa thi
+
+            System.out.println("totalPoint" + totalPoints);
             result.setTotalPoint(totalPoints);
-            resultService.save(result);
+
+//            resultService.save(result);
+            resultList.add(result);
+            Config.writeFile(Config.URL_RESULTS, resultList);
+
+
             System.out.println("Bài thi đã kết thúc. Tổng điểm của bạn là: " + totalPoints);
             // xong thực hiện gọi resultservice gọi phương thức save và luw
         } else {

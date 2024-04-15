@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResultDetailServiceImpl implements IResultDetailService {
-    public static List<ResultDetail> resultDetailsList =  new ArrayList<>();
+    public static List<ResultDetail> resultDetailsList ;
     static {
         resultDetailsList = Config.readData(Config.URL_RESULTDETAIL);
     }

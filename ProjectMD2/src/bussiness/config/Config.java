@@ -12,7 +12,7 @@ public class Config<T> {
     // các biến hằng số cho đường dẫn các file
     public static final String URL_USERS = "src/bussiness/data/users.txt";
     public static final String URL_USER_LOGIN = "src/bussiness/data/userLogin.txt";
-    public static final String URL_EXAMS = "src/bussiness/data/exams";
+    public static final String URL_EXAMS = "src/bussiness/data/exams.txt";
     public static final String URL_CATEGORY = "src/bussiness/data/category";
     public static final String URL_ANSWERS = "src/bussiness/data/answers";
     public static final String URL_RESULTS = "src/bussiness/data/results";

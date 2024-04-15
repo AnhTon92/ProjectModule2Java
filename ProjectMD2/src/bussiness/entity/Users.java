@@ -272,13 +272,13 @@ public class Users implements Serializable {
     }
 
     public void display() {
-        System.out.printf(YELLOW_BOLD_BRIGHT + "|" + WHITE_BOLD_BRIGHT + " %-4d " +
-                YELLOW_BOLD_BRIGHT + "|" + WHITE_BOLD_BRIGHT + " %-22s " +
-                YELLOW_BOLD_BRIGHT + "|" + WHITE_BOLD_BRIGHT + " %-24s " +
-                YELLOW_BOLD_BRIGHT + "|" + WHITE_BOLD_BRIGHT + " %-23s " +
-                YELLOW_BOLD_BRIGHT + "|" + WHITE_BOLD_BRIGHT + " %-19s " +
-                YELLOW_BOLD_BRIGHT + "|" + WHITE_BOLD_BRIGHT + " %-15s " +
-                YELLOW_BOLD_BRIGHT + "|" + (role == ADMIN ? (BLUE_BOLD_BRIGHT + " %-14s" + YELLOW_BOLD_BRIGHT) :
+        System.out.printf(YELLOW_BOLD_BRIGHT + "| userId" + WHITE_BOLD_BRIGHT + " %-4d " +
+                YELLOW_BOLD_BRIGHT + "| lastName: " + WHITE_BOLD_BRIGHT + " %-22s " +
+                YELLOW_BOLD_BRIGHT + "| firstName: " + WHITE_BOLD_BRIGHT + " %-24s " +
+                YELLOW_BOLD_BRIGHT + "| userName: " + WHITE_BOLD_BRIGHT + " %-23s " +
+                YELLOW_BOLD_BRIGHT + "| email: " + WHITE_BOLD_BRIGHT + " %-19s " +
+                YELLOW_BOLD_BRIGHT + "| phone: " + WHITE_BOLD_BRIGHT + " %-15s " +
+                YELLOW_BOLD_BRIGHT + "| vai trò: " + (role == ADMIN ? (BLUE_BOLD_BRIGHT + " %-14s" + YELLOW_BOLD_BRIGHT) :
                 (WHITE_BOLD_BRIGHT + " %-14s" + YELLOW_BOLD_BRIGHT)) +
                 "|" + (status ? (GREEN_BOLD_BRIGHT + " %-13s "
                 + YELLOW_BOLD_BRIGHT) : (RED_BOLD_BRIGHT + " %-13s " + YELLOW_BOLD_BRIGHT))

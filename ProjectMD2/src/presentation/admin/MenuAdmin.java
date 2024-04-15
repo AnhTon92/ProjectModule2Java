@@ -40,17 +40,17 @@ public class MenuAdmin {
         int choice = 0;
         while (choice != 9) {
             System.out.println(YELLOW_BOLD_BRIGHT + ".----------------------------------------------------------------------.");
-            System.out.printf("|  QUIZIZZ   ADMINISTATION                  Xin chào, " );
+            System.out.printf("|  QUIZIZZ   ADMINISTATION          Xin chào,                                            |" );
             System.out.println(YELLOW_BOLD_BRIGHT + "|----------------------------QUIZIZZ   MANAGEMENT---------------------------|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[1] Hiển thị danh sách toàn bộ người dùng                        " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[2] Khóa/mở người dùng theo id                         " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[3] Tìm kiếm thông tin người dùng theo tên                                 " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[4] Thống kê danh sách người dự thi                                 " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[5] Thống kê danh sách bài thi                                 " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[6] Thống kê điểm thi trung bình theo tháng                                " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[7] Thống kê top 10 bạn có điểm thi cao nhất trong tháng                                 " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[8] Thêm tài khoản giáo viên                        " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[9] Đăng xuất                                " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "       " + WHITE_BOLD_BRIGHT + "[1] Hiển thị danh sách toàn bộ người dùng                " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "       " + WHITE_BOLD_BRIGHT + "[2] Khóa/mở người dùng theo id                           " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "       " + WHITE_BOLD_BRIGHT + "[3] Tìm kiếm thông tin người dùng theo tên               " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "       " + WHITE_BOLD_BRIGHT + "[4] Thống kê danh sách người dự thi                      " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "       " + WHITE_BOLD_BRIGHT + "[5] Thống kê danh sách bài thi                           " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "       " + WHITE_BOLD_BRIGHT + "[6] Thống kê điểm thi trung bình theo tháng              " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "       " + WHITE_BOLD_BRIGHT + "[7] Thống kê top 10 bạn có điểm thi cao nhất trong tháng " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "       " + WHITE_BOLD_BRIGHT + "[8] Thêm tài khoản giáo viên                             " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "       " + WHITE_BOLD_BRIGHT + "[9] Đăng xuất                                            " + YELLOW_BOLD_BRIGHT + "|");
             System.out.println("'----------------------------------------------------------------------'" + RESET);
             System.out.print(WHITE_BOLD_BRIGHT + "Nhập lựa chọn : ");
             choice = Validate.validateInt();
@@ -84,7 +84,7 @@ public class MenuAdmin {
                     System.out.println(GREEN_BOLD_BRIGHT + "Đăng xuất thành công !" + RESET);
                     break;
                 default:
-                    System.out.println(RED_BOLD_BRIGHT + "Không hợp lệ, vui lòng nhập lại." + RESET);
+                    System.out.println(RED_BOLD_BRIGHT + "Không hợp lệ, vui lòng nhập lại lựa chọn từ 1 đến 9." + RESET);
             }
         }
     }

@@ -11,8 +11,6 @@ import bussiness.designImpl.*;
 import bussiness.entity.*;
 import presentation.LoginMain;
 
-import java.sql.SQLOutput;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +18,7 @@ import java.util.Objects;
 
 
 import static bussiness.config.Color.*;
+import static presentation.user.MenuUser.userLogin;
 
 public class MenuTeacher {
     IResultService resultService = new ResultServiceImpl();
@@ -31,19 +30,19 @@ public class MenuTeacher {
         int choice = 0;
         while (choice != 10) {
             System.out.println(YELLOW_BOLD_BRIGHT + ".----------------------------------------------------------------------.");
-            System.out.println("|  QUIZIZZ   Teacher      Xin chào, " + BLUE_BOLD_BRIGHT + "%-13s " + YELLOW_BOLD_BRIGHT + "|\n" + RESET);
+            System.out.printf("|     MY QUIZZIZ            Xin chào |");
             System.out.println(YELLOW_BOLD_BRIGHT + "|----------------------------TEACHER MANAGEMENT---------------------------|");
 
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[1] Hiển thị tất cả danh mục                       " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[2] Thêm mới danh mục                       " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[3] Sửa danh mục theo id                       " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[4] Xóa danh mục                        " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[5] Hiển thị danh sách đề thi của bản thân                       " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[6] Thêm mới đề thi                       " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[7] Chỉnh sửa đề thi                                 " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[8] Xóa đề thi                                 " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[9] Thống kê kết quả thi của người dự thi                                 " + YELLOW_BOLD_BRIGHT + "|");
-            System.out.println("|" + RESET + "" + WHITE_BOLD_BRIGHT + "[10] Đăng xuất                                 " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "           " + WHITE_BOLD_BRIGHT + "[1] Hiển thị tất cả danh mục                       " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "           " + WHITE_BOLD_BRIGHT + "[2] Thêm mới danh mục                              " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "           " + WHITE_BOLD_BRIGHT + "[3] Sửa danh mục theo id                           " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "           " + WHITE_BOLD_BRIGHT + "[4] Xóa danh mục                                   " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "           " + WHITE_BOLD_BRIGHT + "[5] Hiển thị danh sách đề thi của bản thân         " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "           " + WHITE_BOLD_BRIGHT + "[6] Thêm mới đề thi                                " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "           " + WHITE_BOLD_BRIGHT + "[7] Chỉnh sửa đề thi                               " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "           " + WHITE_BOLD_BRIGHT + "[8] Xóa đề thi                                     " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "           " + WHITE_BOLD_BRIGHT + "[9] Thống kê kết quả thi của người dự thi          " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + RESET + "           " + WHITE_BOLD_BRIGHT + "[10] Đăng xuất                                     " + YELLOW_BOLD_BRIGHT + "|");
             System.out.println("'----------------------------------------------------------------------'" + RESET);
             System.out.print(WHITE_BOLD_BRIGHT + "Nhập lựa chọn : ");
             choice = Validate.validateInt();
@@ -150,10 +149,10 @@ public class MenuTeacher {
                 System.out.println("==============================EDIT EXAM================================");
                 System.out.println("[1]. Chỉnh sửa mô tả đề thi: ");
                 System.out.println("[2]. Chỉnh sửa thời gian làm bài:  ");
-                System.out.println("[3]. Chỉnh sửa danh sách câu hỏi(1.Thêm / 2.Xóa / 3.Sửa) : ");
+                System.out.println("[3]. Chỉnh sửa danh sách câu hỏi: ");
                 System.out.println("[4]. Chỉnh sửa ngày đăng đề thi:  ");
                 System.out.println("[5]. Chỉnh sửa trạng thái đề thi: ");
-                System.out.println("[6]. Chỉnh sửa danh mục đề thi(1.Thêm / 2.Xóa /3.Sửa):  ");
+                System.out.println("[6]. Chỉnh sửa danh mục đề thi:  ");
                 System.out.println("[7]. Thoát ");
                 System.out.println("Xin mời lựa chọn: ");
                 choice = InputMethods.getInteger();
@@ -177,10 +176,12 @@ public class MenuTeacher {
                         editExamCatalog(exam);
                         break;
                     case 7:
-                        break;
+
+                        return;
 
                     default:
                         System.out.println("Lựa chọn không hợp lệ, mời lựa chọn lại!");
+                        break;
                 }
             } while (choice != 3);
             examService.save(exam);
@@ -257,8 +258,6 @@ public class MenuTeacher {
                     .findFirst().orElse(null);
             if (catalogToAdd != null && !categories.contains(catalogToAdd)) {
                 categories.add(catalogToAdd);
-                // thêm ở chỗ nào đáy ??c
-                // mới check thôi mà
                 System.out.println("Danh mục đã được thêm thành công.");
                 break;
             } else if (categories.contains(catalogToAdd)) {
@@ -291,8 +290,16 @@ public class MenuTeacher {
             switch (choice) {
                 case 1:
                     Question question = new Question();
-                    System.out.println("Nhập id cho câu hỏi: ");
-                    question.setQuestionId(InputMethods.getInteger());
+                    int questionId = 0  ;
+                    boolean idExist;
+                    do {
+                        System.out.println("Nhập id cho câu hỏi: ");
+                        question.setQuestionId(InputMethods.getInteger());
+                        idExist = questionList.stream().anyMatch(q -> q.getQuestionId() == questionId);
+                        if (idExist) {
+                            System.out.println("Id đã tồn tại. Vui lòng nhập id khác.");
+                        }
+                    } while (idExist);
                     System.out.println("Nhập nội dung câu hỏi: ");
                     question.setQuestionContent(InputMethods.getString());
                     question.setAnswerOption(getAnswerOptionForQuestion());

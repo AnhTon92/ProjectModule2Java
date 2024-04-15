@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResultServiceImpl implements IResultService {
-    public static List<Result> resultList =  new ArrayList<>();
+    public static List<Result> resultList ;
     static {
         resultList = Config.readData(Config.URL_RESULTS);
     }

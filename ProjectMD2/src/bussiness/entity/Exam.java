@@ -104,10 +104,12 @@ public class Exam implements Serializable {
                 .findFirst().orElse(null)).getUserName());
         System.out.println("Mô tả bài thi: " + this.description);
         System.out.println("Thời gian của bài thi: " + this.duration);
-        System.out.println("Danh sách câu hỏi của bài thi: "+ this.listQuestion);
+
+//        System.out.println("Danh sách câu hỏi của bài thi: "+ this.listQuestion);
         System.out.println("Ngày tạo bài thi: " + this.getCreatedAt());
         System.out.println("Trạng thái bài thi: "+this.isStatus());
-        System.out.println("Danh mục của bài thi: "+ this.categories);
+        this.categories.forEach(Catalog::displayData);
+//        System.out.println("Danh mục của bài thi: "+ this.categories);
     }
 
     public void display() {

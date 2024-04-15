@@ -10,6 +10,8 @@ import presentation.admin.MenuAdmin;
 import presentation.teacher.MenuTeacher;
 import presentation.user.MenuUser;
 
+import static bussiness.config.Color.*;
+
 public class LoginMain {
 
     private static MenuUser menuUser = new MenuUser();
@@ -19,11 +21,13 @@ public class LoginMain {
     public static Users currentUser = Config.readDataLogin(Config.URL_USER_LOGIN);
     public static void main(String[] args) {
         while (true){
-            System.out.println("++++++++++++++++++++++++MENU+++++++++++++++++++++++");
-            System.out.println("1. Đăng nhập");
-            System.out.println("2. Đăng ký");
-            System.out.println("3. Đăng xuất");
-            System.out.println("Nhập chức năng");
+            System.out.println(YELLOW_BOLD_BRIGHT + ".-----------------------------------------------------.");
+            System.out.println("|" +BLUE_BOLD_BRIGHT + "                WELCOME TO MY QUIZZ APP                " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|------------------------MENU-------------------------|");
+            System.out.println("|" + WHITE_BOLD_BRIGHT + "               [1] Login                             " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + WHITE_BOLD_BRIGHT + "               [2] Register                          " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.println("|" + WHITE_BOLD_BRIGHT + "               [3] Exit                              " + YELLOW_BOLD_BRIGHT + "|");
+            System.out.print(WHITE_BOLD_BRIGHT + "Nhập lựa chọn của bạn (1/2/3): " + RESET);
             byte choice = InputMethods.getByte();
             switch (choice){
                 case 1:
