@@ -141,25 +141,27 @@ public class MenuAdmin {
         }
     }
 
-    private void listUserTested() {
+    private void listUserTested() { // liệt kê tất cả người dùng đã thực hiện bài test
+        // tạo danh sách nguười dùng từ AuthenService.userslist và lọc ra người dùng có vai trò là user
         List<Users> displayAll  = new java.util.ArrayList<>(AuthenService.usersList.stream().filter(users ->
                 users.getRole().equals(RoleName.USER)).toList());
-
+        // loại bỏ người dùng chưa test: displayAll.removeIf loại bỏ những người dùng không có trong resultList, tức là những người chưa thực hiện bài test nào.
         List<Result> resultList = ResultServiceImpl.resultList;
         displayAll.removeIf(x -> (!resultList.contains(new Result(0, x.getUserId(), 0, 0, null))));
-
+        // hiển thị thông tin người dùng
         for (Users users : displayAll) {
             users.display();
         }
     }
 
-    private void compileScoreByMonth() {
+    private void compileScoreByMonth() {//Phương thức này dùng để tính toán và biên soạn điểm số của người dùng theo từng tháng.
+       // Tạo danh sách người dùng: Tương tự như phương thức listUserTested(), displayAll được tạo ra để chứa danh sách người dùng có vai trò là USER.
         List<Users> displayAll  = new java.util.ArrayList<>(AuthenService.usersList.stream().filter(users ->
                 users.getRole().equals(RoleName.USER)).toList());
         List<Result> resultList = ResultServiceImpl.resultList;
-
+        //Khởi tạo map dữ liệu: data là một HashMap dùng để lưu trữ điểm số của người dùng theo từng tháng.
         Map<Integer, UserDataScore> data = new HashMap<>();
-
+        //Xử lý kết quả: Vòng lặp for duyệt qua resultList để cập nhật điểm số và số lần test của người dùng vào data.
         for (Result result: resultList) {
             UserDataScore userDataScore = data.get(result.getUserId());
             if (Objects.isNull(userDataScore)) {
@@ -176,7 +178,7 @@ public class MenuAdmin {
 
             data.put(result.getResultId(), userDataScore);
         }
-
+//Tính toán điểm trung bình: Duyệt qua data để tính điểm trung bình theo từng tháng cho mỗi người dùng.
         List<UserDataScore> output = new ArrayList<>();
         for (Integer key : data.keySet()) {
             UserDataScore userDataScore = data.get(key);
@@ -189,23 +191,31 @@ public class MenuAdmin {
 
             output.add(userDataScore);
         }
-
+//Hiển thị thông tin: Sử dụng vòng lặp for để gọi phương thức display() cho mỗi UserDataScore trong danh sách output.
         for (UserDataScore userDataScore : output) {
             userDataScore.display();
         }
 
     }
 
-    private void top10UserBestScore(){
+    private void top10UserBestScore(){// Phương thức top10UserBestScore() được thiết kế để tìm ra 10 người dùng có điểm số cao nhất trong tháng hiện tại.
+        //Lấy danh sách người dùng: displayAll chứa danh sách người dùng có vai trò là USER, được lọc từ AuthenService.usersList
         List<Users> displayAll  = new java.util.ArrayList<>(AuthenService.usersList.stream().filter(users ->
                 users.getRole().equals(RoleName.USER)).toList());
-
+        //Lấy danh sách kết quả: resultList chứa tất cả kết quả từ ResultServiceImpl.
         List<Result> resultList = ResultServiceImpl.resultList;
-
+        //Xác định tháng hiện tại: currentMonth được lấy từ thời gian hiện tại của hệ thống.
         LocalDateTime now = LocalDateTime.now();
         Integer currentMonth = now.getMonthValue();
+        //Khởi tạo danh sách điểm số tốt nhất: userBestScores là danh sách sẽ chứa thông tin điểm số tốt nhất của người dùng.
         List<UserBestScore> userBestScores = new ArrayList<>();
-
+//Duyệt qua kết quả và cập nhật điểm số:
+//Vòng lặp for duyệt qua resultList.
+//Chỉ xét những kết quả có tháng tạo bằng với tháng hiện tại.
+//Tìm UserBestScore hiện tại của người dùng dựa trên userId.
+//Nếu không tìm thấy, tạo mới UserBestScore từ thông tin người dùng trong displayAll.
+//Cập nhật điểm số tốt nhất bằng cách so sánh điểm số hiện tại với điểm số đã lưu.
+//Thêm hoặc cập nhật UserBestScore vào trong userBestScores.
         for (Result result : resultList) {
 
             if (currentMonth == result.getCreatedDate().getMonthValue()) {
@@ -227,11 +237,12 @@ public class MenuAdmin {
             }
 
         }
-
+        //Sắp xếp danh sách theo điểm số giảm dần: Sử dụng Comparator để sắp xếp userBestScores theo score giảm dần.
         userBestScores.sort(Comparator.comparing(UserBestScore::getScore).reversed());
+        //Lấy top 10 người dùng có điểm cao nhất: top10Items chứa 10 UserBestScore có điểm số cao nhất.
         // Retrieve the top 10 items
         List<UserBestScore> top10Items = userBestScores.subList(0, Math.min(userBestScores.size(), 10));
-
+        //Hiển thị thông tin top 10 người dùng: Dùng vòng lặp for để gọi phương thức display() cho mỗi UserBestScore trong top10Items.
         for (UserBestScore userBestScore : top10Items) {
             userBestScore.display();
         }

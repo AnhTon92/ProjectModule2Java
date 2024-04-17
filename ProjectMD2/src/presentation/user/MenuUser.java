@@ -12,7 +12,10 @@ import bussiness.entity.*;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -260,8 +263,10 @@ public class MenuUser {
             result.setCreatedDate(LocalDateTime.now());
             int totalCorrectAnswers = 0;
             // for hết câu hỏi
-            for (int i = 0; i < exam.getListQuestion().size(); i++) {
-                Question question = exam.getListQuestion().get(i);
+            List<Question> shuffleList = new ArrayList<>(exam.getListQuestion());
+            Collections.shuffle(shuffleList, new Random(System.nanoTime()));
+            for (int i = 0; i < shuffleList.size(); i++) {
+                Question question = shuffleList.get(i);
                 // cho nó biết câu hỏi thứ mấy dựa vào index
                 System.out.println("Đây là câu hỏi thứ " + (i + 1) + ":");
                 // hiện nội dung câu hỏi : questionh.getContent()
@@ -284,13 +289,12 @@ public class MenuUser {
                     totalCorrectAnswers += 1;
                 }
                 resultDetailService.save(detail);
-
                 ResultDetailServiceImpl.resultDetailsList.add(detail);
                 Config.writeFile(Config.URL_RESULTDETAIL, ResultDetailServiceImpl.resultDetailsList);
 
             }
 
-            double totalPoints = (double) totalCorrectAnswers * 100/ exam.getListQuestion().size();
+            double totalPoints = (double) totalCorrectAnswers * 100/ shuffleList.size();
             // xong vòng for thì mới tính tổng diểm
             // lấy ra list câu trả lời vừa thi (findAllByResultId)
             // đếm số lượng resultdetail = true

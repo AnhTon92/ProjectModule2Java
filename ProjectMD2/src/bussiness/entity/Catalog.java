@@ -26,38 +26,54 @@ public class Catalog implements Serializable{
     public void inputData() {
 
         // Nhập và kiểm tra mã danh mục
-        if (this.catalogId == null){
-            do {
-                System.out.print("Nhập mã danh mục (ví dụ: C001): ");
-                this.catalogId = InputMethods.getString();
-                if (!isValidCatalogId(this.catalogId)) {
-                    System.out.println("Mã danh mục không hợp lệ. Mã phải bắt đầu bằng kí tự 'C' và theo sau là 3 chữ số.");
-                }
-            } while (!isValidCatalogId(this.catalogId));
-        }
+//        if (this.catalogId == null){
+//            do {
+//                System.out.print("Nhập mã danh mục (ví dụ: C001): ");
+//                this.catalogId = InputMethods.getString();
+//                if (!isValidCatalogId(this.catalogId) && isDuplicateCatalogId(this.catalogId)) {
+//                    System.out.println("Mã danh mục không hợp lệ. Mã phải bắt đầu bằng kí tự 'C' và theo sau là 3 chữ số.");
+//                }
+//            } while (!isValidCatalogId(this.catalogId) && isDuplicateCatalogId(this.catalogId));
+//        }
 
 
         // Nhập tên danh mục
-        do {
-            System.out.print("Nhập tên danh mục: ");
-            this.catalogName = InputMethods.getString();
-            if (this.catalogName.trim().isEmpty()) {
-                System.out.println("Tên danh mục không được để trống.");
-            }
-        } while (this.catalogName == null || this.catalogName.trim().isEmpty());
+//        do {
+//            System.out.print("Nhập tên danh mục: ");
+//            this.catalogName = InputMethods.getString();
+//            if (this.catalogName.trim().isEmpty()) {
+//                System.out.println("Tên danh mục không được để trống.");
+//            }else break;
+//        } while (true);
 
         // Kiểm tra trùng lặp ID
-        while (isDuplicateCatalogId(this.catalogId)) {
-            System.out.println("ID danh mục đã tồn tại, vui lòng nhập lại.");
+        while (true) {
+//            System.out.println("ID danh mục đã tồn tại, vui lòng nhập lại.");
             System.out.print("Nhập mã danh mục (ví dụ: C001): ");
-            this.catalogId = InputMethods.getString();
+            String catalogId = InputMethods.getString();
+            if(!isValidCatalogId(catalogId)) {
+                System.out.println("Không được để trống");
+            } else if (isDuplicateCatalogId(catalogId)) {
+                System.out.println("Id đã bị trùng");
+            } else {
+                this.catalogId = catalogId;
+                break;
+            }
         }
 
         // Kiểm tra trùng lặp tên danh mục
-        while (isDuplicateCatalogName(this.catalogName)) {
-            System.out.println("Tên danh mục đã tồn tại, vui lòng nhập lại.");
+        while (true) {
+//            System.out.println("Tên danh mục đã tồn tại, vui lòng nhập lại.");
             System.out.print("Nhập tên danh mục: ");
-            this.catalogName = InputMethods.getString();
+            String catalogName = InputMethods.getString();
+            if(catalogName.isEmpty()) {
+                System.out.println("Không được để trống");
+            }else if(isDuplicateCatalogName(catalogName)) {
+                System.out.println("tên danh mục đã bị trùng");
+            } else {
+                this.catalogName = catalogName;
+                break;
+            }
         }
 
         // Nhập mô tả
